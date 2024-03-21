@@ -32,8 +32,11 @@ function getCurrentFunctionName() {
  *   getFunctionBody(hiHello) => "function hiHello() { console.log('hello world'); }"
  *
  */
-function getFunctionBody(/* func */) {
-  throw new Error('Not implemented');
+function getFunctionBody(func) {
+  if (!func) {
+    return '';
+  }
+  return func.toString();
 }
 
 /**
@@ -70,8 +73,11 @@ function getArgumentsCount(funcs) {
  *   power05(16) => 4
  *
  */
-function getPowerFunction(/* exponent */) {
-  throw new Error('Not implemented');
+function getPowerFunction(exponent) {
+  const result = function blabla(x) {
+    return x ** exponent;
+  };
+  return result;
 }
 
 /**
@@ -87,10 +93,25 @@ function getPowerFunction(/* exponent */) {
  *   getPolynom(8)     => y = 8
  *   getPolynom()      => null
  */
-function getPolynom() {
-  throw new Error('Not implemented');
-}
+function getPolynom(...coefficients) {
+  if (!coefficients || coefficients.length === 0) {
+    return null;
+  }
 
+  function func(x) {
+    const bodyFunction = coefficients.reduce(
+      (accumulator, coefficient, index) => {
+        const exponent = coefficients.length - 1 - index;
+        return accumulator + coefficient * x ** exponent;
+      },
+      0
+    );
+
+    return bodyFunction;
+  }
+
+  return func;
+}
 /**
  * Memoizes passed function and returns function
  * which invoked first time calls the passed function and then always returns cached result.
@@ -168,7 +189,7 @@ function logger(/* func, logFunc */) {
  *   partialUsingArguments(fn, 'a','b','c')('d') => 'abcd'
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
-function partialUsingArguments(/* fn, ...args1 */) {
+function partialUsingArguments(/* fn, ...coefficients1 */) {
   throw new Error('Not implemented');
 }
 
