@@ -193,7 +193,7 @@ function retry(func, attempts) {
  *
  */
 function logger(func, logFunc) {
-  return function (...args) {
+  return function lggr(...args) {
     logFunc(
       `${func.name}(${args.map((a) => JSON.stringify(a)).join(',')}) starts`
     );
@@ -218,8 +218,10 @@ function logger(func, logFunc) {
  *   partialUsingArguments(fn, 'a','b','c')('d') => 'abcd'
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
-function partialUsingArguments(/* fn, ...coefficients1 */) {
-  throw new Error('Not implemented');
+function partialUsingArguments(fn, ...fixedArgs) {
+  return function pUA(...remainingArgs) {
+    return fn(...fixedArgs, ...remainingArgs);
+  };
 }
 
 /**
@@ -239,8 +241,15 @@ function partialUsingArguments(/* fn, ...coefficients1 */) {
  *   getId4() => 7
  *   getId10() => 11
  */
-function getIdGeneratorFunction(/* startFrom */) {
-  throw new Error('Not implemented');
+function getIdGeneratorFunction(startFrom) {
+  let id = startFrom;
+  function generator() {
+    const currentId = id;
+    id += 1;
+    return currentId;
+  }
+
+  return generator;
 }
 
 module.exports = {
